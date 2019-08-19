@@ -415,7 +415,7 @@ exit_reason_to_str(int reason)
 
 // 	for (i = 0; i < 8; i++)
 // 		error += guest_msr_ro(vmx, MSR_APIC_TMR0 + i);
-	
+
 // 	for (i = 0; i < 8; i++)
 // 		error += guest_msr_ro(vmx, MSR_APIC_IRR0 + i);
 
@@ -670,7 +670,7 @@ vmx_handle_cpuid(struct vm *vm, int vcpuid)
 {
 	uint32_t eax, ebx, ecx, edx;
 	int error;
-	
+
 	eax = (uint32_t) reg_read(vcpuid, HV_X86_RAX);
 	ebx = (uint32_t) reg_read(vcpuid, HV_X86_RBX);
 	ecx = (uint32_t) reg_read(vcpuid, HV_X86_RCX);
@@ -2052,6 +2052,7 @@ vmx_exit_process(struct vmx *vmx, int vcpu, struct vm_exit *vmexit)
 		 */
 		gpa = vmcs_gpa(vcpu);
 		if (vm_mem_allocated(vmx->vm, gpa) ||
+        bootrom_contains_gpa(gpa) ||
 		    apic_access_fault(vmx, vcpu, gpa)) {
 			vmexit->exitcode = VM_EXITCODE_PAGING;
 			vmexit->inst_length = 0;
@@ -2393,7 +2394,7 @@ vmx_setreg(void *arg, int vcpu, int reg, uint64_t val)
 		if (shadow > 0) {
 			/*
 			 * Store the unmodified value in the shadow
-			 */			
+			 */
 			error = vmcs_setreg(vcpu, VMCS_IDENT(shadow), val);
 		}
 
@@ -2709,7 +2710,7 @@ vmx_vlapic_init(void *arg, int vcpuid)
 	struct vmx *vmx;
 	struct vlapic *vlapic;
 	struct vlapic_vtx *vlapic_vtx;
-	
+
 	vmx = arg;
 
 	vlapic = malloc(sizeof(struct vlapic_vtx));

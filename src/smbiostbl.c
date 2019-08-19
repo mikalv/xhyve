@@ -85,6 +85,15 @@ struct smbios_template_entry {
 #define	SMBIOS_ENTRY_IANCHOR	"_DMI_"
 #define	SMBIOS_ENTRY_IANCHORLEN	5
 
+/*
+ * BIOS values like name and version
+ */
+#define BIOS_INFO_VENDOR    "sigterm.no"
+#define BIOS_INFO_NAME      "XHYVE"
+#define BIOS_INFO_VERSION   "1.00"
+#define BIOS_INFO_REL_DATE  "03/14/2014"
+
+
 struct smbios_entry_point {
 	char		eanchor[4];	/* anchor tag */
 	uint8_t		echecksum;	/* checksum of entry point structure */
@@ -322,9 +331,9 @@ static struct smbios_table_type0 smbios_type0_template = {
 };
 
 static const char *smbios_type0_strings[] = {
-	"BHYVE",	/* vendor string */
-	"1.00",		/* bios version string */
-	"03/14/2014",	/* bios release date string */
+	BIOS_INFO_NAME,	/* vendor string */
+	BIOS_INFO_VERSION,		/* bios version string */
+	BIOS_INFO_REL_DATE,	/* bios release date string */
 	NULL
 };
 
@@ -345,9 +354,9 @@ static int smbios_type1_initializer(struct smbios_structure *template_entry,
     uint16_t *n, uint16_t *size);
 
 static const char *smbios_type1_strings[] = {
-	" ",		/* manufacturer string */
-	"BHYVE",	/* product name string */
-	"1.0",		/* version string */
+	BIOS_INFO_VENDOR,		/* manufacturer string */
+	BIOS_INFO_NAME,	/* product name string */
+	BIOS_INFO_VERSION,		/* version string */
 	"None",		/* serial number string */
 	"None",		/* sku string */
 	" ",		/* family name string */
@@ -373,8 +382,8 @@ static struct smbios_table_type3 smbios_type3_template = {
 };
 
 static const char *smbios_type3_strings[] = {
-	" ",		/* manufacturer string */
-	"1.0",		/* version string */
+	BIOS_INFO_VENDOR,		/* manufacturer string */
+	BIOS_INFO_VERSION,		/* version string */
 	"None",		/* serial number string */
 	"None",		/* asset tag string */
 	"None",		/* sku number string */
@@ -410,8 +419,8 @@ static struct smbios_table_type4 smbios_type4_template = {
 
 static const char *smbios_type4_strings[] = {
 	" ",		/* socket designation string */
-	" ",		/* manufacturer string */
-	" ",		/* version string */
+	BIOS_INFO_VENDOR,		/* manufacturer string */
+	BIOS_INFO_VERSION,		/* version string */
 	"None",		/* serial number string */
 	"None",		/* asset tag string */
 	"None",		/* part number string */

@@ -52,7 +52,7 @@
 #include <xhyve/virtio.h>
 #include <xhyve/block_if.h>
 
-#define VTBLK_RINGSZ 64
+#define VTBLK_RINGSZ 128
 
 #define VTBLK_S_OK 0
 #define VTBLK_S_IOERR 1
@@ -108,7 +108,7 @@ struct virtio_blk_hdr {
 #define	VBH_OP_WRITE		1
 #define	VBH_OP_FLUSH		4
 #define	VBH_OP_FLUSH_OUT	5
-#define	VBH_OP_IDENT		8		
+#define	VBH_OP_IDENT		8
 #define	VBH_FLAG_BARRIER	0x80000000	/* OR'ed into vbh_type */
 	uint32_t vbh_type;
 	uint32_t vbh_ioprio;
@@ -268,7 +268,7 @@ pci_vtblk_proc(struct pci_vtblk_softc *sc, struct vqueue_info *vq)
 	}
 	io->io_req.br_resid = iolen;
 
-	DPRINTF(("virtio-block: %s op, %zd bytes, %d segs\n\r", 
+	DPRINTF(("virtio-block: %s op, %zd bytes, %d segs\n\r",
 		 writeop ? "write" : "read/ident", iolen, i - 1));
 
 	switch (type) {
@@ -328,7 +328,7 @@ pci_vtblk_init(struct pci_devinst *pi, char *opts)
 	 */
 	snprintf(bident, sizeof(bident), "%d:%d", pi->pi_slot, pi->pi_func);
 	bctxt = blockif_open(opts, bident);
-	if (bctxt == NULL) {       	
+	if (bctxt == NULL) {
 		perror("Could not open backing file");
 		return (1);
 	}

@@ -98,6 +98,7 @@ vatpit_get_out(struct vatpit *vatpit, int channel)
 {
 	struct channel *c;
 	sbintime_t delta_ticks;
+  sbintime_t now, delta, precision;
 	int out;
 
 	c = &vatpit->channel[channel];
@@ -105,6 +106,7 @@ vatpit_get_out(struct vatpit *vatpit, int channel)
 	switch (c->mode) {
 	case TIMER_INTTC:
 		delta_ticks = (sbinuptime() - c->now_sbt) / vatpit->freq_sbt;
+    precision = delta >> tc_precexp;
 		out = ((c->initial - delta_ticks) <= 0);
 		break;
 	default:

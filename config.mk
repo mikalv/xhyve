@@ -20,7 +20,7 @@ STRIP := strip
 DSYM := dsymutil
 
 ENV := \
-  LANG=en_US.US-ASCII
+  LANG=en_US.UTF-8
 
 ###############################################################################
 # CFLAGS                                                                      #
@@ -33,7 +33,7 @@ CFLAGS_OPT := \
 
 CFLAGS_WARN := \
   -Weverything \
-  -Werror \
+  -Wno-error \
   -Wno-unknown-warning-option \
   -Wno-reserved-id-macro \
   -pedantic
